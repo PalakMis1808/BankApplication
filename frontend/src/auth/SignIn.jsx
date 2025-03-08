@@ -3,7 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import auth from '../assets/auth.png';
+import login from '../assets/login.jpg';
 
 const SignIn = () => {
   const [email, setEmail] = useState('');
@@ -13,7 +13,6 @@ const SignIn = () => {
   const handleSignIn = async (e) => {
     e.preventDefault();
     try {
-       //when deploying I changed the backedn path based on the backend path from where our backedn runs online
       const response = await axios.post('http://localhost:5000/api/users/login', { email, password });
       if (response.data.token && response.data.role) {
         const token = response.data.token;
@@ -35,42 +34,45 @@ const SignIn = () => {
   };
 
   return (
-    <div className="flex flex-col md:flex-row h-screen">
-      <div className="md:w-1/2 w-full bg-gray-100">
-        <img src={auth} alt="SignIn" className="object-cover w-full h-full" />
-      </div>
-      <div className="md:w-1/2 w-full flex flex-col justify-center px-8 md:px-16 bg-white">
-        <h2 className="text-3xl font-bold mb-6 text-center md:text-left">Welcome Back!</h2>
-        <form onSubmit={handleSignIn}>
-          <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2">Email</label>
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-600"
-              placeholder="example@mail.com"
-            />
-          </div>
-          <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2">Password</label>
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-600"
-              placeholder="********"
-            />
-          </div>
-          <button className="w-full bg-indigo-600 text-white py-2 rounded-lg hover:bg-indigo-700 transition duration-200">
-            Sign In
-          </button>
-        </form>
-        <div className="mt-4 text-center">
-          <Link to="/register" className="text-indigo-600 hover:underline">Don't have an account? Register</Link>
+    <div className="flex items-center justify-center min-h-screen bg-[#F5F7F2]">
+
+      <div className="flex flex-col md:flex-row items-center bg-white backdrop-blur-lg rounded-3xl shadow-xl p-10 md:p-16 w-[95%] max-w-5xl">
+        <div className="md:w-1/2 w-full flex items-center justify-center p-6">
+          <img src={login} alt="Sign In" className="rounded-2xl shadow-lg object-cover w-full h-full max-h-[400px]" />
         </div>
-        <ToastContainer />
+        <div className="md:w-1/2 w-full flex flex-col items-center p-8 md:p-12 bg-white rounded-3xl shadow-lg">
+          <h2 className="text-4xl font-extrabold text-gray-800 mb-6 text-center">Welcome Back!</h2>
+          <form onSubmit={handleSignIn} className="w-full space-y-6">
+            <div>
+              <label className="block text-gray-700 text-sm font-semibold mb-2">Email</label>
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                placeholder="example@mail.com"
+              />
+            </div>
+            <div>
+              <label className="block text-gray-700 text-sm font-semibold mb-2">Password</label>
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                placeholder="********"
+              />
+            </div>
+            <button className="w-full py-3 text-lg font-semibold bg-green-600 text-white rounded-lg shadow-md hover:bg-green-700 transition duration-200">
+              Sign In
+            </button>
+          </form>
+          <div className="mt-4 text-center">
+            <Link to="/register" className="text-green-700 text-sm hover:underline">Don't have an account? Register</Link>
+          </div>
+        </div>
       </div>
+      <ToastContainer />
     </div>
   );
 };

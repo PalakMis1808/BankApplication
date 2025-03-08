@@ -7,7 +7,7 @@ import SignIn from './auth/SignIn';
 
 // admin
 import AdminDashboard from './pages/admin/AdminDashboard';
-// import AdminNavbar from './pages/admin/AdminNavbar';
+import AdminNavbar from './pages/admin/AdminNavbar';
 import LoanManagement from './pages/admin/LoanManagement';
 import PlatformSettings from './pages/admin/PlatformSettings';
 import Report from './pages/admin/Report';
@@ -71,8 +71,6 @@ const App = () => {
             <Route path="/lender/loan-list" element={<LenderLoanList />} />
             <Route path="/lender/repayment" element={<LenderRepaymentManagement />} />
             <Route path="/lender/support" element={<LenderSupport  />} />
-
-
 
             {/* admin */}
             <Route path="/admin/dashboard" element={<AdminDashboard />} />

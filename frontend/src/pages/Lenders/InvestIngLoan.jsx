@@ -13,15 +13,13 @@ const InvestingLoan = () => {
   useEffect(() => {
     const fetchLoans = async () => {
       try {
-        const token = localStorage.getItem('token'); // Assuming the token is stored in localStorage
+        const token = localStorage.getItem('token');
         const response = await axios.get('http://localhost:5000/api/loans', {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          headers: { Authorization: `Bearer ${token}` },
         });
         setLoans(response.data);
       } catch (error) {
-        toast.error(`Error fetching loans: ${error.message}`);
+        toast.error('Error fetching loans.');
       }
     };
     fetchLoans();
@@ -32,13 +30,11 @@ const InvestingLoan = () => {
       try {
         const token = localStorage.getItem('token');
         const response = await axios.get('http://localhost:5000/api/investment', {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          headers: { Authorization: `Bearer ${token}` },
         });
         setInvestments(response.data);
       } catch (error) {
-        toast.error(`Error fetching investments: ${error.message}`);
+        // toast.error('Error fetching investments.');
       }
     };
     fetchInvestments();
@@ -48,75 +44,78 @@ const InvestingLoan = () => {
     try {
       const token = localStorage.getItem('token');
       await axios.post('http://localhost:5000/api/investment', data, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        headers: { Authorization: `Bearer ${token}` },
       });
-      toast.success('Investment successful! Your investment has been processed.');
+      toast.success('Investment successful!');
       reset();
     } catch (error) {
-      toast.error(`Investment failed: ${error.message}`);
+      // toast.error('Investment failed.');
     }
   };
 
   return (
-    <div className="flex">
+    <div className="flex bg-gray-100 min-h-screen">
       <Sidebar userRole="lender" />
-      <div className="container mx-auto p-4">
-        <h1 className="text-2xl font-bold mb-4">Invest in Loans</h1>
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-          <div>
-            <label htmlFor="loanId" className="block text-sm font-medium text-gray-700">Select Loan</label>
-            <select id="loanId" {...register('loanId')} className="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
-              {Array.isArray(loans) && loans.length > 0 ? (
-                loans.map((loan) => (
+      <div className="flex-1 p-6">
+        <h1 className="text-3xl font-semibold text-green-800 mb-6">Invest in Loans</h1>
+        <div className="bg-white shadow-lg rounded-lg p-6">
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+            <div>
+              <label className="block text-gray-700 text-sm font-medium mb-1">Select Loan</label>
+              <select {...register('loanId')} className="w-full p-2 border rounded-lg text-gray-700">
+                <option value="" disabled selected>Choose a loan...</option>
+                <option value="personal-loan">Personal Loan</option>
+                <option value="education-loan">Education Loan</option>
+                <option value="startup-loan">Start Up Loan</option>
+                {loans.map((loan) => (
                   <option key={loan.id} value={loan.id}>
-                    {`Loan Amount: ${loan.amount}, Term: ${loan.term} months, Interest Rate: ${loan.interestRate}%`}
+                    {`₹${loan.amount} - ${loan.term} months @ ${loan.interestRate}%`}
                   </option>
+                ))}
+              </select>
+            </div>
+            <div>
+              <label className="block text-gray-700 text-sm font-medium mb-1">Investment Amount</label>
+              <input
+                type="number"
+                {...register('amount', { required: true })}
+                className="w-full p-2 border rounded-lg text-gray-700"
+              />
+            </div>
+            <button type="submit" className="w-full p-2 bg-green-600 text-white rounded-lg hover:bg-green-700">
+              Invest
+            </button>
+          </form>
+        </div>
+        <h2 className="text-2xl font-semibold text-green-800 mt-8">Your Investments</h2>
+        <div className="bg-white shadow-lg rounded-lg mt-4 overflow-hidden">
+          <table className="w-full border-collapse">
+            <thead>
+              <tr className="bg-green-100 text-green-800">
+                <th className="p-3 text-left">Loan ID</th>
+                <th className="p-3 text-left">Amount</th>
+                <th className="p-3 text-left">Status</th>
+                <th className="p-3 text-left">Progress</th>
+              </tr>
+            </thead>
+            <tbody>
+              {investments.length > 0 ? (
+                investments.map((investment) => (
+                  <tr key={investment.id} className="border-t hover:bg-gray-50">
+                    <td className="p-3">{investment.loanId}</td>
+                    <td className="p-3">₹{investment.amount}</td>
+                    <td className="p-3">{investment.status}</td>
+                    <td className="p-3">{investment.repaymentProgress}%</td>
+                  </tr>
                 ))
               ) : (
-                <option value="" disabled>No loans available</option>
-              )}
-            </select>
-          </div>
-          <div>
-            <label htmlFor="amount" className="block text-sm font-medium text-gray-700">Investment Amount</label>
-            <input
-              id="amount"
-              type="number"
-              {...register('amount', { required: true })}
-              className="mt-1 block w-full border-gray-300 rounded-md shadow-sm"
-            />
-          </div>
-          <button type="submit" className="px-4 py-2 bg-blue-500 text-white rounded-md">Invest</button>
-        </form>
-        <h2 className="text-xl font-bold mt-8">Your Investments</h2>
-        <table className="min-w-full bg-white border border-gray-300 mt-4">
-          <thead>
-            <tr className="bg-gray-200">
-              <th className="py-2 px-4 border-b">Loan ID</th>
-              <th className="py-2 px-4 border-b">Amount Invested</th>
-              <th className="py-2 px-4 border-b">Status</th>
-              <th className="py-2 px-4 border-b">Repayment Progress</th>
-            </tr>
-          </thead>
-          <tbody>
-            {Array.isArray(investments) && investments.length > 0 ? (
-              investments.map((investment) => (
-                <tr key={investment.id}>
-                  <td className="py-2 px-4 border-b">{investment.loanId}</td>
-                  <td className="py-2 px-4 border-b">${investment.amount}</td>
-                  <td className="py-2 px-4 border-b">{investment.status}</td>
-                  <td className="py-2 px-4 border-b">{investment.repaymentProgress}%</td>
+                <tr>
+                  <td className="p-3 text-center text-gray-500" colSpan="4">No investments found</td>
                 </tr>
-              ))
-            ) : (
-              <tr>
-                <td className="py-2 px-4 border-b" colSpan="4">No investments found</td>
-              </tr>
-            )}
-          </tbody>
-        </table>
+              )}
+            </tbody>
+          </table>
+        </div>
         <ToastContainer />
       </div>
     </div>

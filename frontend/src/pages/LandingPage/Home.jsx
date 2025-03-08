@@ -1,18 +1,27 @@
-import React from 'react';
-import HeroSection from './HeroSection';
-import FeaturesSection from './FeaturesSection';
-import AboutSection from './AboutSection';
-import Footer from './Footer';
+import React from "react";
+import HeroSection from "./HeroSection";
 import Navbar from './Navbar';
+import FeatureSection from "./FeaturesSection";
+import AboutSection from "./AboutSection";
+import Footer from "./Footer";
 
 const Home = () => {
   return (
-    <div className="font-sans">
-      <Navbar />
-      <HeroSection />
-      <FeaturesSection  />
-      <AboutSection />
-      <Footer />
+    
+    <div className="bg-[#F5F7F2]">
+      <Navbar /> 
+      <div id="hero">
+        <HeroSection />
+      </div>
+      <div id="services">
+        <FeatureSection />
+      </div>
+      <div id="about">
+        <AboutSection />
+      </div>
+      <div id="contact">
+        <Footer />
+      </div>
     </div>
   );
 };
