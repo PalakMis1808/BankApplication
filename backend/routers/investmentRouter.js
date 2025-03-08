@@ -4,7 +4,7 @@ import authMiddleware from '../middleware/authMiddleware.js';
 
 const router = express.Router();
 
-// // Authenticate all routes
+// // Authenticate all routesAA
 // router.use(authenticate);
 
 // Route to invest in a loan
