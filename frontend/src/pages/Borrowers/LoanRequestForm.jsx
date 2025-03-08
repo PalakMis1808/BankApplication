@@ -27,34 +27,43 @@ const LoanRequestForm = () => {
 
   // Handle form submission
   const handleSubmit = async (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    if (!recaptchaToken) {
-      alert('Please complete the reCAPTCHA');
-      return;
-    }
+  if (!recaptchaToken) {
+    alert("Please complete the reCAPTCHA");
+    return;
+  }
 
-    const token = localStorage.getItem('token'); // Retrieve token from local storage
+  const token = localStorage.getItem("token"); // Get JWT token
 
-    try {
-      await axios.post(
-        'http://localhost:5000/api/borrower-loan',
-        {
-          ...formData,
-          recaptchaToken, // Include reCAPTCHA token in the request
+  if (!token) {
+    alert("User not authenticated. Please log in.");
+    return;
+  }
+
+  try {
+    const response = await axios.post(
+      "http://localhost:5000/api/borrower-loan",
+      {
+        ...formData,
+        recaptchaToken, // Include reCAPTCHA token
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`, // Add JWT token
+          "Content-Type": "application/json",
         },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`, // Add token to request headers
-          }
-        }
-      );
-      alert('Loan request submitted successfully!');
-    } catch (error) {
-      console.error('Error submitting loan request:', error);
-      alert('Failed to submit loan request.');
-    }
-  };
+      }
+    );
+
+    alert("Loan request submitted successfully!");
+    console.log("Loan request response:", response.data);
+  } catch (error) {
+    console.error("Error submitting loan request:", error);
+    alert("Failed to submit loan request.");
+  }
+};
+
 
   return (
     <div className="flex">
@@ -121,7 +130,7 @@ const LoanRequestForm = () => {
           {/* Google reCAPTCHA */}
           <div className="mb-4">
             <ReCAPTCHA
-              sitekey="6Lfv-EUqAAAAAMcr7_ho-rP8CO9Wn7AdV6KIQLVI"
+              sitekey="6LcAWu0qAAAAAFPwODZ089Y9Nncusyt-WNsetaeW"
               onChange={handleRecaptcha}
             />
           </div>

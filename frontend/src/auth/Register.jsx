@@ -16,7 +16,7 @@ const Register = () => {
     e.preventDefault();
     try {
       //when deploying I changed the backedn path based on the backend path from where our backedn runs online
-      const response = await axios.post('https://bankapplication-hsep.onrender.com/api/users/register', {
+      const response = await axios.post('http://localhost:5000/api/users/register', {
         name,
         email,
         password,
@@ -24,7 +24,7 @@ const Register = () => {
       });
 
       if (response.data.token) {
-        toast.success('Registration successful!', { position: toast.POSITION.TOP_RIGHT });
+        toast.success('Registration successful!', { position: "top-right" });
         if (role === 'admin') navigate('/admin/dashboard');
         else if (role === 'lender') navigate('/lender/dashboard');
         else navigate('/borrower/dashboard');

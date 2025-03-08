@@ -1,32 +1,71 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
-dotenv.config();
 import config from './config.js';
 import userRouter from './routers/userRouter.js';
+import supportRouter from './routers/supportRouter.js';
+import settingsRouter from './routers/settingsRouter.js';
+import reviewloansRouter from './routers/reviewloansRouter.js';
+import repaymentRouter from './routers/repaymentRouter.js';
+import notificationRouter from './routers/notificationRouter.js';
+import loanRouter from './routers/loanRouter.js';
+import loanReportRouter from './routers/loanReportRouter.js';
+import lenderProfileRouter from './routers/lenderProfileRouter.js';
+import investmentRouter from './routers/investmentRouter.js';
+import borrowerRepaymentRouter from './routers/borrowerLoanRouter.js';
+import borrowerNotificationRouter from './routers/borrowerNotificationRouter.js';
+import borrowerLoanRouter from './routers/borrowerLoanRouter.js';
+import paymentRoutes from './routers/paymentRoutes.js';
 
-// Initialize Express
+
+dotenv.config();
+
 const app = express();
-const PORT = config.port || process.env.PORT || 5000;
+const PORT = config.port;
+const { sequelize } = config;
 
-// Enable JSON parsing (Important: This should be above other middleware)
 app.use(express.json());
-
-// CORS Middleware
 app.use(cors({
-  origin: ['http://localhost:5173', 'https://bankapplication-hsep.onrender.com'], // Allow both local & hosted frontend
+  origin: 'http://localhost:5173',  // Your frontend URL
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
-  credentials: true, // Allow cookies, sessions, etc.
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
+  credentials: true,
+  optionsSuccessStatus: 200 // Some legacy browsers choke on 204
 }));
 
-// Explicitly handle CORS for preflight requests
 app.options('*', cors());
 
-// API Routes
+// Routers
 app.use('/api/users', userRouter);
+app.use('/api/support', supportRouter);
+app.use('/api/settings', settingsRouter);
+app.use('/api/review-loan', reviewloansRouter);
+app.use('/api/repayments', repaymentRouter);
+app.use('/api/notifications', notificationRouter);
+app.use('/api/loans',  loanRouter);
+app.use('/api/loan-report', loanReportRouter); 
+app.use('/api/lender-profile', lenderProfileRouter);
+app.use('/api/investment', investmentRouter);
+app.use('/api/borrower-repayment', borrowerRepaymentRouter);
+app.use('/api/borrower-notification', borrowerNotificationRouter);
+app.use('/api/borrower-loan', borrowerLoanRouter);
+app.use('/api', paymentRoutes);
 
-// Start Server
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+
+// Sync database and start the server
+sequelize
+  .sync()
+  .then(() => {
+    app.listen(PORT, () => {
+      console.log(`Server is running on port ${PORT}`);
+    });
+  })
+  .catch((error) => {
+    console.error('Unable to connect to the database:', error.message);
+  });
+
+// Error handling middleware
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ error: 'Something went wrong!' });
 });
