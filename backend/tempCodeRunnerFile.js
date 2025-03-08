@@ -7,21 +7,23 @@ import userRouter from './routers/userRouter.js';
 
 // Initialize Express
 const app = express();
-const PORT = config.port || process.env.PORT || 5000;
+const PORT = config.port;
 
-// Enable JSON parsing (Important: This should be above other middleware)
-app.use(express.json());
-
-// CORS Middleware
+// Enable CORS
 app.use(cors({
-  origin: ['http://localhost:5173', 'https://bankapplication-hsep.onrender.com'], // Allow both local & hosted frontend
+  origin: '*',  // Allow all origins (for testing)
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
-  credentials: true, // Allow cookies, sessions, etc.
+  credentials: true 
 }));
 
-// Explicitly handle CORS for preflight requests
-app.options('*', cors());
+// Middleware to handle preflight requests
+app.options('*', (req, res) => {
+  res.sendStatus(200);
+});
+
+// Enable JSON parsing
+app.use(express.json());
 
 // API Routes
 app.use('/api/users', userRouter);

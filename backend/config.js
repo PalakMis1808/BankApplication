@@ -1,7 +1,12 @@
 import { Sequelize } from 'sequelize';
 import dotenv from 'dotenv';
+import path from 'path';
 
-dotenv.config();
+dotenv.config({ path: path.resolve('F:/BankApplication/backend/.env') });
+
+console.log("DATABASE_URL:", process.env.DATABASE_URL || "NOT LOADED");
+
+
 
 const sequelize = new Sequelize(process.env.DATABASE_URL, {
   dialect: 'postgres',
@@ -17,10 +22,10 @@ const sequelize = new Sequelize(process.env.DATABASE_URL, {
 sequelize
   .authenticate()
   .then(() => {
-    console.log('Connected to the MySQL database.');
+    console.log('Connected to the Postgres database.');
   })
   .catch((error) => {
-    console.error('Error connecting to the MySQL database:', error.message);
+    console.error('Error connecting to the Postgres database:', error.message);
   });
 
 const jwtSecret = process.env.JWT_SECRET;
