@@ -1,5 +1,5 @@
 import React from "react";
-import about from "../../assets/about.jpg";
+import about from "../../assets/img2.jpg";
 
 const AboutSection = () => {
   return (
@@ -9,9 +9,7 @@ const AboutSection = () => {
         <div className="md:w-1/2 text-center md:text-left">
           <h2 className="text-4xl font-bold mb-6 text-[#D9E3DA]">Why Choose Us?</h2>
           <p className="text-lg leading-relaxed text-[#C2D1BD]">
-            At our bank, we believe in making your money work for you. Whether you're an individual 
-            or part of a group, we provide solutions that help you invest and save with confidence. 
-            Join thousands who trust us to secure their financial future.
+            This is more than just finances; it's about building a foundation for your dreams. We believe in empowering women to take control of their financial narratives, fostering a supportive community where aspirations are nurtured and realized. It's about owning your future, defining your own path, and knowing that every financial step you take is an investment in your personal legacy. Join us, and discover the confidence that comes with financial well-being, where your potential is not just recognized, but celebrated.
           </p>
         </div>
 

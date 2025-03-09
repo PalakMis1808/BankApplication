@@ -6,9 +6,17 @@ const LenderSupport = () => {
     const [message, setMessage] = useState('');
     const [status, setStatus] = useState('');
     const [faqs, setFaqs] = useState([
-        { question: 'How do I track my repayments?', answer: 'You can track your repayments through the Repayment Management section.', open: false },
-        { question: 'How do I contact support?', answer: 'You can contact support by submitting a request through the form on this page.', open: false },
-    ]);
+  { 
+    question: 'How do I track my repayments?', 
+    answer: 'You can track your repayments through the Repayment Management section. Here you can view your repayment schedule and history.', 
+    open: false 
+  },
+  { 
+  question: 'How do I contact support?', 
+  answer: 'You can contact support by submitting a request through the form on this page. Alternatively, you can reach us at our support number: +1 (800) 123-4567 or via email at support@example.com.', 
+  open: false 
+},
+]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();

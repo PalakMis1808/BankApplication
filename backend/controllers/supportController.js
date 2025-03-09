@@ -17,7 +17,6 @@ export const createSupportRequest = async (req, res) => {
 
 export const getSupportRequests = async (req, res) => {
     try {
-        console.log(req.user); // Log the user info to check if it's populated
         let supportRequests;
         if (req.user.role === 'admin') {
             // Admins see all support requests

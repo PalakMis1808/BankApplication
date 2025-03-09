@@ -4,13 +4,11 @@ import path from 'path';
 
 dotenv.config({ path: path.resolve('F:/BankApplication/backend/.env') });
 
-console.log("DATABASE_URL:", process.env.DATABASE_URL || "NOT LOADED");
 
 
 
 const sequelize = new Sequelize(process.env.DATABASE_URL, {
   dialect: 'postgres',
-  logging: console.log, 
   dialectOptions: {
     ssl: {
       require: true,
@@ -22,7 +20,6 @@ const sequelize = new Sequelize(process.env.DATABASE_URL, {
 sequelize
   .authenticate()
   .then(() => {
-    console.log('Connected to the Postgres database.');
   })
   .catch((error) => {
     console.error('Error connecting to the Postgres database:', error.message);

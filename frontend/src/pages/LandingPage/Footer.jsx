@@ -9,7 +9,7 @@ const Footer = () => {
 
         {/* Heading */}
         <h3 className="text-2xl font-semibold text-[#D9E3DA] mb-3">
-          Join us in empowering women entrepreneurs
+          Empowering women entrepreneurs
         </h3>
         <p className="text-[#C2D1BD] mb-6">
           Secure your financial future with trusted loan solutions.

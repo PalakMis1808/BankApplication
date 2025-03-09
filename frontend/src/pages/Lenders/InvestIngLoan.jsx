@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Sidebar from '../Lenders/LenderSidebar';
+import { FaInfoCircle } from 'react-icons/fa'; // Make sure this import is included if you use FaInfoCircle
 
 const InvestingLoan = () => {
   const { register, handleSubmit, reset } = useForm();
@@ -12,52 +13,40 @@ const InvestingLoan = () => {
 
   useEffect(() => {
     const fetchLoans = async () => {
-      try {
-        const token = localStorage.getItem('token');
-        const response = await axios.get('http://localhost:5000/api/loans', {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        setLoans(response.data);
-      } catch (error) {
-        toast.error('Error fetching loans.');
-      }
+      const token = localStorage.getItem('token');
+      const response = await axios.get('http://localhost:5000/api/loans', {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setLoans(response.data);
     };
     fetchLoans();
   }, []);
 
   useEffect(() => {
     const fetchInvestments = async () => {
-      try {
-        const token = localStorage.getItem('token');
-        const response = await axios.get('http://localhost:5000/api/investment', {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        setInvestments(response.data);
-      } catch (error) {
-        // toast.error('Error fetching investments.');
-      }
+      const token = localStorage.getItem('token');
+      const response = await axios.get('http://localhost:5000/api/investment', {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setInvestments(response.data);
     };
     fetchInvestments();
   }, []);
 
   const onSubmit = async (data) => {
-    try {
-      const token = localStorage.getItem('token');
-      await axios.post('http://localhost:5000/api/investment', data, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      toast.success('Investment successful!');
-      reset();
-    } catch (error) {
-      // toast.error('Investment failed.');
-    }
+    const token = localStorage.getItem('token');
+    await axios.post('http://localhost:5000/api/investment', data, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    toast.success('Investment successful!');
+    reset();
   };
 
   return (
     <div className="flex bg-gray-100 min-h-screen">
       <Sidebar userRole="lender" />
       <div className="flex-1 p-6">
-        <h1 className="text-3xl font-semibold text-green-800 mb-6">Invest in Loans</h1>
+        <h1 className="text-3xl font-semibold text-green-800 mb-6">Investments</h1>
         <div className="bg-white shadow-lg rounded-lg p-6">
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             <div>
@@ -86,6 +75,11 @@ const InvestingLoan = () => {
               Invest
             </button>
           </form>
+          {/* Disclaimer about additional charges */}
+        <p className="text-center text-gray-400 text-xs mt-12">
+          <FaInfoCircle className="inline-block text-yellow-500 mr-2" />
+          <span>Please note that we charge a fee for investing in loans through our portal.</span>
+        </p>
         </div>
         <h2 className="text-2xl font-semibold text-green-800 mt-8">Your Investments</h2>
         <div className="bg-white shadow-lg rounded-lg mt-4 overflow-hidden">
@@ -117,6 +111,8 @@ const InvestingLoan = () => {
           </table>
         </div>
         <ToastContainer />
+        
+        
       </div>
     </div>
   );

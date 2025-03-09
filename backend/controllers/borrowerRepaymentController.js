@@ -29,19 +29,6 @@ export const createRepayment = async (req, res) => {
   }
 };
 
-// Get repayment history for a borrower
-// export const getRepaymentHistory = async (req, res) => {
-//   try {
-//     const { borrowerId } = req.params;
-//     const repayments = await Repayment.findAll({
-//       where: { borrowerId },
-//       include: [{ model: Loan }],
-//     });
-//     res.status(200).json(repayments);
-//   } catch (error) {
-//     res.status(500).json({ message: error.message });
-//   }
-// };
 
 
 export const getRepaymentHistory = async (req, res) => {

@@ -5,17 +5,17 @@ const features = [
   {
     icon: <FaChartLine size={50} className="text-[#2F3E2E]" />,
     title: "Personalized Investments",
-    description: "Grow your wealth with tailored investment plans that meet your financial goals.",
+    description: "Optimize your financial portfolio: strategic loan management paired with tailored investment growth.",
   },
   {
     icon: <FaPiggyBank size={50} className="text-[#2F3E2E]" />,
     title: "Smart Savings",
-    description: "Save for your future with high-interest savings accounts that ensure your money works for you.",
+    description: "Strategically save and manage your loans. Build a stronger financial future with integrated solutions.",
   },
   {
     icon: <FaUsers size={50} className="text-[#2F3E2E]" />,
     title: "Group Savings Plans",
-    description: "Join group savings schemes and benefit from collective investments for greater returns.",
+    description: "Amplify your financial potential: Join group savings schemes, leverage collective investments, and access flexible loan options.",
   },
 ];
 

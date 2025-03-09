@@ -3,7 +3,6 @@ import Loan from '../models/loanModel.js';
 // Invest in a loan
 export const investInLoan = async (req, res) => {
     try {
-      console.log(req.user);  // Check if req.user is being populated
   
       const { amount, loanId } = req.body;
       const lenderId = req.user?.id || req.body.lenderId;  // Fallback to request body
@@ -20,7 +19,6 @@ export const investInLoan = async (req, res) => {
       const investment = await Investment.create({ amount, lenderId, loanId });
       res.status(201).json({ message: 'Investment successful', investment });
     } catch (error) {
-      console.error(error);
       res.status(500).json({ message: 'Error investing in loan', error });
     }
   };
@@ -29,8 +27,6 @@ export const investInLoan = async (req, res) => {
 
   export const getLenderInvestments = async (req, res) => {
     try {
-      // Log the req.user to check if it is being populated
-      console.log('req.user:', req.user);
   
       // Ensure req.user is defined
       if (!req.user || !req.user.id) {

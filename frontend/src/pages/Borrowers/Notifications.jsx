@@ -48,7 +48,7 @@ const Notifications = ({ userId }) => {
 
       {/* Main Content */}
       <div className="flex-1 p-6">
-        <h2 className="text-2xl font-semibold mb-6 text-gray-800">
+        <h2 className="text-3xl font-bold text-[#004d00] mb-6">
           Your Notifications
         </h2>
 

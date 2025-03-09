@@ -8,18 +8,17 @@ const PaystackPayment = () => {
   const [currency, setCurrency] = useState('USD'); // Default currency set to USD
 
   const handlePaystackPayment = async () => {
-    const publicKey = 'your_paystack_public_key'; // Replace with your Paystack public key
+    const publicKey = 'pk_test_37469a732743b72486aba719871739b834d9f19c'
     const paymentHandler = window.PaystackPop.setup({
       key: publicKey,
       email,
       amount: amount * 100, // Paystack expects amount in the smallest currency unit (e.g., cents for USD)
       currency: currency,    // Use selected currency
       callback: (response) => {
-        console.log('Payment successful!', response);
         verifyPayment(response.reference); // Call backend to verify payment
       },
       onClose: () => {
-        console.log('Payment cancelled');
+
       },
     });
     paymentHandler.openIframe();
@@ -28,7 +27,6 @@ const PaystackPayment = () => {
   const verifyPayment = async (reference) => {
     try {
       const response = await axios.post('http://localhost:5000/api/verify-payment', { reference });
-      console.log('Payment verification response:', response.data);
     } catch (error) {
       console.error('Error verifying payment:', error);
     }
