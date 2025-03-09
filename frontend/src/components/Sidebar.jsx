@@ -1,238 +1,73 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { FaHome, FaTasks, FaUser, FaEnvelope, FaDollarSign, FaChartBar } from 'react-icons/fa';
+import { FaHome, FaTasks, FaUser, FaEnvelope, FaDollarSign, FaChartBar, FaBars, FaTimes } from 'react-icons/fa';
 
 const Sidebar = ({ userRole }) => {
+  const [isCollapsed, setIsCollapsed] = useState(false);
+
   return (
-    <div className="bg-gray-800 text-white w-64 min-h-screen flex flex-col">
-      <div className="flex items-center justify-center h-16 bg-gray-900 shadow-md">
-        <h1 className="text-2xl font-bold">AppName</h1>
+    <div className={`fixed left-0 top-0 h-screen bg-[#F5F7F2] text-white shadow-xl transition-all duration-300 ${isCollapsed ? 'w-20' : 'w-64'}`}>
+      {/* Sidebar Toggle Button */}
+      <div className="flex justify-between items-center p-4">
+        <h1 className={`text-2xl font-bold transition-all ${isCollapsed ? 'hidden' : 'block'}`}>AppName</h1>
+        <button onClick={() => setIsCollapsed(!isCollapsed)} className="text-white">
+          {isCollapsed ? <FaBars size={22} /> : <FaTimes size={22} />}
+        </button>
       </div>
-      <nav className="flex-1 mt-6">
-        <ul>
+
+      {/* Sidebar Navigation */}
+      <nav className="mt-6">
+        <ul className="space-y-3">
           {userRole === 'admin' && (
             <>
-            <li>
-            <Link
-              to="/admin/dashboard"
-              className="flex items-center p-4 hover:bg-gray-700 transition-colors duration-200"
-            >
-              <FaHome className="mr-3 text-lg" />
-              Dashboard
-            </Link>
-          </li>
-
-              <li>
-                <Link
-                  to="/admin/user-management"
-                  className="flex items-center p-4 hover:bg-gray-700 transition-colors duration-200"
-                >
-                  <FaUser className="mr-3 text-lg" />
-                  Users
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/admin/loan-management"
-                  className="flex items-center p-4 hover:bg-gray-700 transition-colors duration-200"
-                >
-                  <FaTasks className="mr-3 text-lg" />
-                  Loan Management
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/admin/report"
-                  className="flex items-center p-4 hover:bg-gray-700 transition-colors duration-200"
-                >
-                  <FaChartBar className="mr-3 text-lg" />
-                  Reports
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/admin/platform-settings"
-                  className="flex items-center p-4 hover:bg-gray-700 transition-colors duration-200"
-                >
-                  <FaChartBar className="mr-3 text-lg" />
-                  Settings
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/admin/support-management"
-                  className="flex items-center p-4 hover:bg-gray-700 transition-colors duration-200"
-                >
-                  <FaChartBar className="mr-3 text-lg" />
-                  Support
-                </Link>
-              </li>
+              <SidebarItem to="/admin/dashboard" icon={<FaHome />} label="Dashboard" isCollapsed={isCollapsed} />
+              <SidebarItem to="/admin/user-management" icon={<FaUser />} label="Users" isCollapsed={isCollapsed} />
+              <SidebarItem to="/admin/loan-management" icon={<FaTasks />} label="Loan Management" isCollapsed={isCollapsed} />
+              <SidebarItem to="/admin/report" icon={<FaChartBar />} label="Reports" isCollapsed={isCollapsed} />
+              <SidebarItem to="/admin/platform-settings" icon={<FaChartBar />} label="Settings" isCollapsed={isCollapsed} />
+              <SidebarItem to="/admin/support-management" icon={<FaEnvelope />} label="Support" isCollapsed={isCollapsed} />
             </>
           )}
+
           {userRole === 'borrower' && (
             <>
-              <li>
-                <Link
-                  to="/borrower/dashboard"
-                  className="flex items-center p-4 hover:bg-gray-700 transition-colors duration-200"
-                >
-                  <FaEnvelope className="mr-3 text-lg" />
-                  Dashboard
-                </Link>
-              </li>
-
-              <li>
-                <Link
-                  to="/borrower/loan-request-form"
-                  className="flex items-center p-4 hover:bg-gray-700 transition-colors duration-200"
-                >
-                  <FaEnvelope className="mr-3 text-lg" />
-                  Loan Request
-                </Link>
-              </li>
-
-              <li>
-                <Link
-                  to="/borrower/profile"
-                  className="flex items-center p-4 hover:bg-gray-700 transition-colors duration-200"
-                >
-                  <FaEnvelope className="mr-3 text-lg" />
-                  Profile
-                </Link>
-              </li>
-
-              <li>
-                <Link
-                  to="/borrower/notifications"
-                  className="flex items-center p-4 hover:bg-gray-700 transition-colors duration-200"
-                >
-                  <FaEnvelope className="mr-3 text-lg" />
-                  Notifications
-                </Link>
-              </li>
-
-              <li>
-                <Link
-                  to="/borrower/rgister-user"
-                  className="flex items-center p-4 hover:bg-gray-700 transition-colors duration-200"
-                >
-                  <FaEnvelope className="mr-3 text-lg" />
-                  Register
-                </Link>
-              </li>
-
-              <li>
-                <Link
-                  to="/borrower/repayment"
-                  className="flex items-center p-4 hover:bg-gray-700 transition-colors duration-200"
-                >
-                  <FaEnvelope className="mr-3 text-lg" />
-                  Repayments
-                </Link>
-              </li>
-
-              <li>
-                <Link
-                  to="/borrower/user-management"
-                  className="flex items-center p-4 hover:bg-gray-700 transition-colors duration-200"
-                >
-                  <FaEnvelope className="mr-3 text-lg" />
-                  User Management
-                </Link>
-              </li>
-
-              <li>
-                <Link
-                  to="/borrower/loan-list"
-                  className="flex items-center p-4 hover:bg-gray-700 transition-colors duration-200"
-                >
-                  <FaDollarSign className="mr-3 text-lg" />
-                  My Loans
-                </Link>
-              </li>
+              <SidebarItem to="/borrower/dashboard" icon={<FaHome />} label="Dashboard" isCollapsed={isCollapsed} />
+              <SidebarItem to="/borrower/loan-request-form" icon={<FaTasks />} label="Loan Request" isCollapsed={isCollapsed} />
+              <SidebarItem to="/borrower/profile" icon={<FaUser />} label="Profile" isCollapsed={isCollapsed} />
+              <SidebarItem to="/borrower/notifications" icon={<FaEnvelope />} label="Notifications" isCollapsed={isCollapsed} />
+              <SidebarItem to="/borrower/loan-list" icon={<FaDollarSign />} label="My Loans" isCollapsed={isCollapsed} />
             </>
           )}
+
           {userRole === 'lender' && (
             <>
-              <li>
-                <Link
-                  to="/lender/dashboard"
-                  className="flex items-center p-4 hover:bg-gray-700 transition-colors duration-200"
-                >
-                  <FaDollarSign className="mr-3 text-lg" />
-                  Dashboard
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/lender/investing-loan"
-                  className="flex items-center p-4 hover:bg-gray-700 transition-colors duration-200"
-                >
-                  <FaDollarSign className="mr-3 text-lg" />
-                  My Investments
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/lender/notifications"
-                  className="flex items-center p-4 hover:bg-gray-700 transition-colors duration-200"
-                >
-                  <FaDollarSign className="mr-3 text-lg" />
-                  Notifications
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/lender/profile"
-                  className="flex items-center p-4 hover:bg-gray-700 transition-colors duration-200"
-                >
-                  <FaDollarSign className="mr-3 text-lg" />
-                  Profile
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/lender/loan-list"
-                  className="flex items-center p-4 hover:bg-gray-700 transition-colors duration-200"
-                >
-                  <FaDollarSign className="mr-3 text-lg" />
-                  Loan List
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/investments"
-                  className="flex items-center p-4 hover:bg-gray-700 transition-colors duration-200"
-                >
-                  <FaDollarSign className="mr-3 text-lg" />
-                  My Investments
-                </Link>
-              </li>
-              <li>
-
-              <Link
-                  to="/lender/repayment"
-                  className="flex items-center p-4 hover:bg-gray-700 transition-colors duration-200"
-                >
-                  <FaDollarSign className="mr-3 text-lg" />
-                  Repayments
-                </Link>
-              </li>
-
-              <li>
-                <Link
-                  to="/lender/support"
-                  className="flex items-center p-4 hover:bg-gray-700 transition-colors duration-200"
-                >
-                  <FaEnvelope className="mr-3 text-lg" />
-                  Support Requests
-                </Link>
-              </li>
+              <SidebarItem to="/lender/dashboard" icon={<FaHome />} label="Dashboard" isCollapsed={isCollapsed} />
+              <SidebarItem to="/lender/investing-loan" icon={<FaDollarSign />} label="My Investments" isCollapsed={isCollapsed} />
+              <SidebarItem to="/lender/notifications" icon={<FaEnvelope />} label="Notifications" isCollapsed={isCollapsed} />
+              <SidebarItem to="/lender/profile" icon={<FaUser />} label="Profile" isCollapsed={isCollapsed} />
+              <SidebarItem to="/lender/loan-list" icon={<FaTasks />} label="Loan List" isCollapsed={isCollapsed} />
+              <SidebarItem to="/lender/repayment" icon={<FaDollarSign />} label="Repayments" isCollapsed={isCollapsed} />
+              <SidebarItem to="/lender/support" icon={<FaEnvelope />} label="Support Requests" isCollapsed={isCollapsed} />
             </>
           )}
         </ul>
       </nav>
     </div>
+  );
+};
+
+// Sidebar Item Component
+const SidebarItem = ({ to, icon, label, isCollapsed }) => {
+  return (
+    <li>
+      <Link
+        to={to}
+        className="flex items-center p-3 mx-2 rounded-lg bg-[#F5F7F2] transition-all duration-300 hover:bg-[#003D1F] hover:shadow-md"
+      >
+        <span className="text-xl">{icon}</span>
+        <span className={`ml-3 text-base transition-all duration-300 ${isCollapsed ? 'hidden' : 'block'}`}>{label}</span>
+      </Link>
+    </li>
   );
 };
 

@@ -1,91 +1,47 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { FaHome, FaTasks, FaUser, FaEnvelope, FaDollarSign, FaChartBar } from 'react-icons/fa';
+import React from "react";
+import { Link, useLocation } from "react-router-dom";
+import { FaHome, FaTasks, FaUser, FaEnvelope, FaDollarSign, FaChartBar } from "react-icons/fa";
 
 const Sidebar = ({ userRole }) => {
+  const location = useLocation();
+
+  const navItems = [
+    { to: "/borrower/dashboard", label: "Dashboard", icon: <FaHome /> },
+    { to: "/borrower/loan-request-form", label: "Loan Request", icon: <FaDollarSign /> },
+    { to: "/borrower/profile", label: "Profile", icon: <FaUser /> },
+    { to: "/borrower/notifications", label: "Notifications", icon: <FaEnvelope /> },
+    { to: "/borrower/repayment", label: "Repayments", icon: <FaChartBar /> },
+    { to: "/borrower/loan-list", label: "My Loans", icon: <FaTasks /> },
+  ];
+
   return (
-    <div className="bg-gray-800 text-white w-64 min-h-screen flex flex-col">
-      <div className="flex items-center justify-center h-16 bg-gray-900 shadow-md">
-        <h1 className="text-2xl font-bold">AppName</h1>
+    <div className="bg-[#10291E] text-white w-60 min-h-screen flex flex-col shadow-lg">
+      {/* Logo / Branding */}
+      <div className="flex items-center justify-center h-16 bg-[#0B1E14] shadow-md opacity-90">
+        <h1 className="text-xl font-semibold">AppName</h1>
       </div>
-      <nav className="flex-1 mt-6">
-        <ul>
-          {userRole === 'borrower' && (
-            <> 
-              <li>
+
+      {/* Navigation Links */}
+      <nav className="flex-1 mt-4">
+        <ul className="space-y-1">
+          {userRole === "borrower" &&
+            navItems.map((item, index) => (
+              <li key={index}>
                 <Link
-                  to="/borrower/dashboard"
-                  className="flex items-center p-4 hover:bg-gray-700 transition-colors duration-200"
+                  to={item.to}
+                  className={`flex items-center p-3 rounded-lg mx-3 transition-all duration-300
+                    ${
+                      location.pathname === item.to
+                        ? "bg-[#183D2B] opacity-90"
+                        : "hover:bg-[#1F4A33] opacity-80"
+                    }
+                  `}
                 >
-                  <FaHome className="mr-3 text-lg" />
-                  Dashboard
+                  <span className="text-lg mr-3">{item.icon}</span>
+                  <span className="text-sm font-medium">{item.label}</span>
                 </Link>
               </li>
-              <li>
-                <Link
-                  to="/borrower/loan-request-form"
-                  className="flex items-center p-4 hover:bg-gray-700 transition-colors duration-200"
-                >
-                  <FaDollarSign className="mr-3 text-lg" />
-                  Loan Request
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/borrower/profile"
-                  className="flex items-center p-4 hover:bg-gray-700 transition-colors duration-200"
-                >
-                  <FaUser className="mr-3 text-lg" />
-                  Profile
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/borrower/notifications"
-                  className="flex items-center p-4 hover:bg-gray-700 transition-colors duration-200"
-                >
-                  <FaEnvelope className="mr-3 text-lg" />
-                  Notifications
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/borrower/register-user"
-                  className="flex items-center p-4 hover:bg-gray-700 transition-colors duration-200"
-                >
-                  <FaUser className="mr-3 text-lg" />
-                  Register
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/borrower/repayment"
-                  className="flex items-center p-4 hover:bg-gray-700 transition-colors duration-200"
-                >
-                  <FaChartBar className="mr-3 text-lg" />
-                  Repayments
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/borrower/user-management"
-                  className="flex items-center p-4 hover:bg-gray-700 transition-colors duration-200"
-                >
-                  <FaTasks className="mr-3 text-lg" />
-                  User Management
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/borrower/loan-list"
-                  className="flex items-center p-4 hover:bg-gray-700 transition-colors duration-200"
-                >
-                  <FaDollarSign className="mr-3 text-lg" />
-                  My Loans
-                </Link>
-              </li>
-            </>
-          )}
+            ))}
         </ul>
       </nav>
     </div>

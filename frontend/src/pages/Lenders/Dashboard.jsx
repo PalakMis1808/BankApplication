@@ -7,7 +7,7 @@ const LenderDashboard = () => {
     <div className="flex min-h-screen" style={{ backgroundColor: '#f6fff6' }}>
       <Sidebar userRole="lender" />
       <div className="flex-1 p-6">
-        <h1 className="text-2xl font-semibold text-gray-900 mb-6">Dashboard</h1>
+        <h1 className="text-2xl font-semibold text-green-800 mb-6">Dashboard</h1>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {[

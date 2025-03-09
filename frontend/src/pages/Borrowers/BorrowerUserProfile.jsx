@@ -5,7 +5,11 @@ import Sidebar from '../Borrowers/BorrowerSidebar';
 const UserProfile = () => {
     const [user, setUser] = useState({
         name: '',
-        email: ''
+        email: '',
+        phone: '',
+        address: '',
+        businessName: '',
+        businessType: ''
     });
     const [loading, setLoading] = useState(true);
 
@@ -14,9 +18,7 @@ const UserProfile = () => {
             try {
                 const token = localStorage.getItem('token');
                 const response = await axios.get('http://localhost:5000/api/users/profile', {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
+                    headers: { Authorization: `Bearer ${token}` }
                 });
                 setUser(response.data.user);
             } catch (error) {
@@ -25,7 +27,6 @@ const UserProfile = () => {
                 setLoading(false);
             }
         };
-
         fetchUserData();
     }, []);
 
@@ -39,9 +40,7 @@ const UserProfile = () => {
         try {
             const token = localStorage.getItem('token');
             await axios.put('http://localhost:5000/api/users/profile', user, {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
+                headers: { Authorization: `Bearer ${token}` }
             });
             alert('Profile updated successfully');
         } catch (error) {
@@ -54,41 +53,32 @@ const UserProfile = () => {
     if (!user) return <div>User data not found</div>;
 
     return (
-        <div className="flex">
+        <div className="flex min-h-screen bg-gray-50">
             <Sidebar userRole="borrower" />
-            <div className="max-w-md mx-auto p-4 bg-white shadow-md rounded-lg">
-                <h2 className="text-xl font-semibold mb-4">Update Profile</h2>
-                <form onSubmit={handleSubmit} className="space-y-4">
-                    <div>
-                        <label htmlFor="name" className="block text-sm font-medium text-gray-700">Name</label>
-                        <input
-                            type="text"
-                            id="name"
-                            name="name"
-                            value={user.name || ''}
-                            onChange={handleChange}
-                            className="mt-1 p-2 border border-gray-300 rounded-md shadow-sm w-full"
-                        />
-                    </div>
-                    <div>
-                        <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email</label>
-                        <input
-                            type="email"
-                            id="email"
-                            name="email"
-                            value={user.email || ''}
-                            onChange={handleChange}
-                            className="mt-1 p-2 border border-gray-300 rounded-md shadow-sm w-full"
-                        />
-                    </div>
-                    <button
-                        type="submit"
-                        className="inline-flex items-center px-4 py-2 bg-blue-500 text-white 
-                        font-semibold rounded-md shadow-sm hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    >
-                        Update Profile
-                    </button>
-                </form>
+            <div className="flex-1 flex justify-center items-center p-6">
+                <div className="w-full max-w-lg bg-white p-6 rounded-lg shadow-md">
+                    <h2 className="text-xl font-semibold text-gray-800 mb-4 text-center">Edit Profile</h2>
+                    <form onSubmit={handleSubmit} className="space-y-3">
+                        {['name', 'email', 'phone', 'address', 'businessName', 'businessType'].map((field, index) => (
+                            <div key={index} className="grid grid-cols-1">
+                                <label className="text-sm font-medium text-gray-700 capitalize">{field.replace(/([A-Z])/g, ' $1')}</label>
+                                <input
+                                    type={field === 'email' ? 'email' : 'text'}
+                                    name={field}
+                                    value={user[field] || ''}
+                                    onChange={handleChange}
+                                    className="mt-1 p-2 border border-gray-300 rounded-md shadow-sm w-full"
+                                />
+                            </div>
+                        ))}
+                        <button
+                            type="submit"
+                            className="w-full px-4 py-2 bg-green-600 text-white font-semibold rounded-md shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500"
+                        >
+                            Update Profile
+                        </button>
+                    </form>
+                </div>
             </div>
         </div>
     );
