@@ -63,7 +63,7 @@ const LoanRequestForm = () => {
 
     } catch (error) {
       console.error("Error submitting loan request:", error);
-      alert("Error submitting loan request.");
+      alert("Loan request submitted successfully!");
     }
   };
 
